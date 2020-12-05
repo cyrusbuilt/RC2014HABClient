@@ -50,3 +50,13 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# CP/M binaries
+*.com
+*.COM
+
+# VSCode stuff
+.vscode/
+
+# macOS crap
+.DS_Store
