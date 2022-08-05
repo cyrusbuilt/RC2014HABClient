@@ -141,67 +141,66 @@ void showGarageControlScreen() {
 
 void toggleEnableState() {
 	SC129_write(strcmp(status, "DISABLED") == 0 ? CMD_RESET : CMD_DISABLE);
-	sleep(1);
+	msleep(1*18432/4);
 }
 
 void activateGarage() {
 	SC129_write(CMD_ACTIVATE);
-	sleep(1);
+	msleep(1*18432/4);
 	SC129_write(CMD_RESET);
 }
 
 void getUserInput() {
 	char in;
-	fgetc_cons();
-	if (kbhit()) {
-		in = toupper(getchar());
-		switch(screen) {
-			case SCREEN_HOME:
-				switch (in) {
-					case '1':
-						showStatusScreen();
-						break;
-					case '2':
-						showGarageControlScreen();
-						break;
-					case '3':
-						toggleEnableState();
-						showHomeScreen();
-						break;
-					case '4':
-						terminate = true;
-						break;
-					default:
-						showHomeScreen();
-						break;
-				}
-				break;
-			case SCREEN_STATUS:
-				switch (in) {
-					case '2':
-						showHomeScreen();
-						break;
-					case '1':
-					default:
-						showStatusScreen();
-						break;
-				}
-				break;
-			case SCREEN_GARAGE_CONTROL:
-				switch(in) {
-					case '1':
-						activateGarage();
-						showGarageControlScreen();
-						break;
-					case '2':
-						showHomeScreen();
-						break;
-					default:
-						showGarageControlScreen();
-						break;
-				}
-				break;
-		}
+	while (!kbhit()) {;;}
+	
+	in = toupper(getchar());
+	switch(screen) {
+		case SCREEN_HOME:
+			switch (in) {
+				case '1':
+					showStatusScreen();
+					break;
+				case '2':
+					showGarageControlScreen();
+					break;
+				case '3':
+					toggleEnableState();
+					showHomeScreen();
+					break;
+				case '4':
+					terminate = true;
+					break;
+				default:
+					showHomeScreen();
+					break;
+			}
+			break;
+		case SCREEN_STATUS:
+			switch (in) {
+				case '2':
+					showHomeScreen();
+					break;
+				case '1':
+				default:
+					showStatusScreen();
+					break;
+			}
+			break;
+		case SCREEN_GARAGE_CONTROL:
+			switch(in) {
+				case '1':
+					activateGarage();
+					showGarageControlScreen();
+					break;
+				case '2':
+					showHomeScreen();
+					break;
+				default:
+					showGarageControlScreen();
+					break;
+			}
+			break;
 	}
 }
 
